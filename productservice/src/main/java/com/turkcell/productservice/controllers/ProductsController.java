@@ -12,6 +12,14 @@ public class ProductsController {
     @GetMapping
     public int getStock(@RequestParam int productId)
     {
+        System.out.println("Bir istek geldi:" + productId);
+
+        try{
+            Thread.sleep(10000);
+        }
+        catch(Exception e) {}
+
+
         if(productId > 3)
             return 0;
         return 5;

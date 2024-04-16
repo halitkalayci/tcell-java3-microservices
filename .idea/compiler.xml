@@ -7,17 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="discoveryserver" />
         <module name="productservice" />
         <module name="orderservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="discoveryserver" target="17" />
       <module name="orderservice" target="17" />
       <module name="productservice" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="discoveryserver" options="-parameters" />
       <module name="orderservice" options="-parameters" />
       <module name="productservice" options="-parameters" />
     </option>
