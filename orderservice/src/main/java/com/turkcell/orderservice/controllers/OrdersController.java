@@ -1,5 +1,6 @@
 package com.turkcell.orderservice.controllers;
 
+import com.turkcell.orderservice.clients.ProductServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,13 +13,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class OrdersController {
 
-    private final WebClient.Builder webClientBuilder;
+    //private final WebClient.Builder webClientBuilder;
+    private final ProductServiceClient productServiceClient;
 
     @PostMapping
     public String addOrder(@RequestParam int productId)
     {
         // ... Ürün servisine gidip ürün(ler)ün stok bilgisi çekilmeli.
-
+        /*
         var result = webClientBuilder
                 .build()
                 .get()
@@ -30,6 +32,14 @@ public class OrdersController {
         System.out.println("Ürün servisinden gelen cevap: " + result);
 
         if(result <= 0)
+            throw new RuntimeException("Ürün stokta yok");
+        */
+
+        int stockResult = productServiceClient.getStockByProductId(productId);
+
+        System.out.println("Ürün servisinden gelen cevap: " + stockResult);
+
+        if(stockResult <= 0)
             throw new RuntimeException("Ürün stokta yok");
 
         return "Sipariş eklendi";
