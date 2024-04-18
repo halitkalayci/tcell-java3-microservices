@@ -1,13 +1,11 @@
 package com.turkcell.productservice.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductsController {
+    // /api/v1/products?productId=5
 
     @GetMapping
     public int getStock(@RequestParam int productId)
@@ -23,5 +21,11 @@ public class ProductsController {
         if(productId > 3)
             return 0;
         return 5;
+    }
+    // /api/v1/products/1
+    @GetMapping("{id}")
+    public int test(@PathVariable int id)
+    {
+        return id;
     }
 }
