@@ -1,0 +1,35 @@
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+  postgres:
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=test
+    volumes:
+      - postgresql-volume:/var/lib/postgresql/data
+  discovery-server:
+    build: ./discoveryserver
+    ports:
+      - "8888:8888"
+  gateway-server:
+    build: ./gatewayserver
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8888/eureka/
+
+
+volumes:
+  postgresql-volume: #dosyadaki nickname'i
+    name: postgresql-volume2 #klasör ismi
+  mongodb-volume:
+    name: mongodb-volume2

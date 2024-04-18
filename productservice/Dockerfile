@@ -13,5 +13,5 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:17-jdk
 COPY --from=build /app/target/productservice-0.0.1-SNAPSHOT.jar /app/productservice.jar
-EXPOSE 8082
+# EXPOSE 8082
 CMD java -jar /app/productservice.jar
