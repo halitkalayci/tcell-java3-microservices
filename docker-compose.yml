@@ -14,18 +14,33 @@ services:
       - POSTGRES_PASSWORD=test
     volumes:
       - postgresql-volume:/var/lib/postgresql/data
+  config-server:
+    build: ./configserver
+    ports:
+      - "8079:8079"
+    networks:
+      - common
   discovery-server:
     build: ./discoveryserver
     ports:
       - "8888:8888"
+    networks:
+      - common
   gateway-server:
     build: ./gatewayserver
     ports:
       - "8080:8080"
+    restart: on-failure # her hata aldığında
+    # restart: unless-stopped # kullanıcı dışında konteyner durdu ise
+    # restart: always # kullanıcı dahil herhangi bir şekilde durdu ise.
     depends_on:
       - discovery-server
+      - config-server
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8888/eureka/
+      - SPRING_CLOUD_CONFIG_PROFILE=prod
+      - CONFIGURL=http://config-server:8079
+    networks:
+      - common
 
 
 volumes:
@@ -33,3 +48,7 @@ volumes:
     name: postgresql-volume2 #klasör ismi
   mongodb-volume:
     name: mongodb-volume2
+
+networks:
+  common:
+    driver: bridge
