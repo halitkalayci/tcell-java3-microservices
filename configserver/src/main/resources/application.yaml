@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/halitkalayci/turkcellms-configurations
+          #uri: file://C:\Users\klyyc\Desktop\Projects\Java\turkcell.java3.ms\config
+server:
+  port: 8079
+

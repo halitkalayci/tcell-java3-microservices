@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="gatewayserver" />
         <module name="discoveryserver" />
+        <module name="configserver" />
         <module name="productservice" />
         <module name="orderservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="configserver" target="17" />
       <module name="discoveryserver" target="17" />
       <module name="gatewayserver" target="17" />
       <module name="orderservice" target="17" />
@@ -22,6 +24,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="configserver" options="-parameters" />
       <module name="discoveryserver" options="-parameters" />
       <module name="gatewayserver" options="-parameters" />
       <module name="orderservice" options="-parameters" />

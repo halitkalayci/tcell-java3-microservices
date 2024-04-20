@@ -2,38 +2,7 @@ spring:
   application:
     name: gatewayserver
   cloud:
-    gateway:
-      mvc:
-        routes:
-          - id: productservice
-            uri: lb://productservice
-            predicates:
-              - Path=/api/v1/products/**
-          - id: orderservice
-            uri: lb://orderservice
-            predicates:
-              - Path=/api/v1/orders/**
-          - id: eureka
-            uri: http://localhost:8888
-            predicates:
-              - Path=/eureka/web
-            filters:
-              - SetPath=/
-          - id: eureka-static
-            uri: http://localhost:8888
-            predicates:
-              - Path=/eureka/**
-
-# TODO: Load Balancing'i test et.
-
-server:
-  port: 8080
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8888/eureka/
-    registerWithEureka: true
-    fetchRegistry: true
-
-
+    config:
+      profile: local
+  config:
+    import: configserver:http://localhost:8079
