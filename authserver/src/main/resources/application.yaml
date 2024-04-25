@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: authserver
+  cloud:
+    config:
+      profile: local
+  config:
+    import: "configserver:${configUrl}"
+
+
+configUrl: http://localhost:8079
