@@ -1,5 +1,6 @@
 package com.turkcell.authserver.services.concretes;
 
+import com.turkcell.authserver.core.services.JwtService;
 import com.turkcell.authserver.entities.User;
 import com.turkcell.authserver.services.abstracts.AuthService;
 import com.turkcell.authserver.services.abstracts.UserService;
@@ -20,6 +21,8 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
+    private final JwtService jwtService;
+
     @Override
     public void register(RegisterRequest request) {
         User user = new User();
@@ -33,12 +36,15 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void login(LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest) {
         // TODO: Handle Exception.
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         if(!authentication.isAuthenticated())
             throw new RuntimeException("E-posta ya da şifre yanlış");
+
+        // TODO: Add extra claims.
+        return jwtService.generateToken(loginRequest.getEmail(), null);
     }
 }

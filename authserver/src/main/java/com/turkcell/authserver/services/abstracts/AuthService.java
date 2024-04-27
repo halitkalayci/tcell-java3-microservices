@@ -5,5 +5,5 @@ import com.turkcell.authserver.services.dtos.requests.RegisterRequest;
 
 public interface AuthService {
     void register(RegisterRequest request);
-    void login(LoginRequest loginRequest);
+    String login(LoginRequest loginRequest);
 }

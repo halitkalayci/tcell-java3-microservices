@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                 .httpBasic(AbstractHttpConfigurer::disable);
         return http.build();
     }
+    // TODO: Add JwtFilter
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
