@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -45,6 +48,9 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("E-posta ya da şifre yanlış");
 
         // TODO: Add extra claims.
-        return jwtService.generateToken(loginRequest.getEmail(), null);
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("UserId", 1);
+        claims.put("Deneme", "Turkcell");
+        return jwtService.generateToken(loginRequest.getEmail(), claims);
     }
 }

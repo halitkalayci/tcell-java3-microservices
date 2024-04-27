@@ -37,6 +37,10 @@ public class JwtService
     {
         return getTokenClaims(token).getExpiration().after(new Date()); // Kendi ürettiğim token mı?
     }
+    public String extractUsername(String token)
+    {
+        return getTokenClaims(token).getSubject();
+    }
 
     private Claims getTokenClaims(String token)
     {
