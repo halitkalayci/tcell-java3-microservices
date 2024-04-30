@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,6 +41,11 @@ public class JwtService
     public String extractUsername(String token)
     {
         return getTokenClaims(token).getSubject();
+    }
+
+    public List<String> extractRoles(String token)
+    {
+        return getTokenClaims(token).get("roles", List.class);
     }
 
     private Claims getTokenClaims(String token)

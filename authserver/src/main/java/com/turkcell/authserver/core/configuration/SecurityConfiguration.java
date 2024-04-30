@@ -5,6 +5,7 @@ import com.turkcell.authserver.services.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -43,6 +44,9 @@ public class SecurityConfiguration {
                         req
                                 .requestMatchers(WHITE_LIST).permitAll()
                                 .requestMatchers("/api/v1/admin").hasAnyAuthority("admin")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/test/**").hasAnyAuthority("Test.Add")
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/test/**").hasAnyAuthority("Test.Update")
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/test/**").hasAnyAuthority("Test.Delete")
                                 .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)  // Cross-Site Request Forgery
@@ -50,7 +54,6 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-    // TODO: Add JwtFilter
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();

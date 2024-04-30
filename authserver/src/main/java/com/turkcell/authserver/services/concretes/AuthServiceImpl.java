@@ -10,11 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -41,16 +43,22 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(LoginRequest loginRequest) {
         // TODO: Handle Exception.
+        // TODO: E-posta da şifre de yanlış olursa olsun, mesaj ve yanıt kalıbı birebir aynı olmalı.
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         if(!authentication.isAuthenticated())
             throw new RuntimeException("E-posta ya da şifre yanlış");
 
-        // TODO: Add extra claims.
+        UserDetails user = userService.loadUserByUsername(loginRequest.getEmail());
+        // TODO: Refactor
         Map<String,Object> claims = new HashMap<>();
-        claims.put("UserId", 1);
-        claims.put("Deneme", "Turkcell");
+        List<String> roles = user
+                .getAuthorities()
+                .stream()
+                .map((role) -> role.getAuthority())
+                .toList();
+        claims.put("roles", roles);
         return jwtService.generateToken(loginRequest.getEmail(), claims);
     }
 }
