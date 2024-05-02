@@ -14,4 +14,3 @@ public class OrderserviceApplication {
 	}
 
 }
-// 7:25

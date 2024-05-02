@@ -1,7 +1,7 @@
 package com.turkcell.authserver.core.configuration;
 
-import com.turkcell.authserver.core.filters.JwtFilter;
 import com.turkcell.authserver.services.abstracts.UserService;
+import com.turkcell.core.security.BaseJwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final UserService userService;
-    private final JwtFilter jwtFilter;
+    private final BaseJwtFilter jwtFilter;
 
     private static final String[] WHITE_LIST = {
       "/api/v1/auth/**",
@@ -32,14 +31,17 @@ public class SecurityConfiguration {
       "/v3/api-docs/**",
     };
 
+    // TODO: Move to core.
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // TODO: Move to core (only common parts)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // çift taraflı
+        // Core -> BaseSecurityFilterChain.configureCoreSecurity(http);
         http
                 .authorizeHttpRequests((req)->
                         req
@@ -68,4 +70,3 @@ public class SecurityConfiguration {
         return configuration.getAuthenticationManager();
     }
 }
-// 7.10
