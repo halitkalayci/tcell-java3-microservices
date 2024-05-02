@@ -39,6 +39,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // çift taraflı
         http
                 .authorizeHttpRequests((req)->
                         req

@@ -1,6 +1,6 @@
 package com.turkcell.authserver.core.filters;
 
-import com.turkcell.authserver.core.services.JwtService;
+import com.turkcell.core.security.BaseJwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter
 {
-    private final JwtService jwtService;
+    private final BaseJwtService jwtService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
