@@ -71,6 +71,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.turkcell</groupId>
+			<artifactId>tcell.core3</artifactId>
+			<version>2.0.3</version>
+		</dependency>
     </dependencies>
 
 

@@ -2,6 +2,7 @@ package com.turkcell.authserver.core.configuration;
 
 import com.turkcell.authserver.services.abstracts.UserService;
 import com.turkcell.core.security.BaseJwtFilter;
+import com.turkcell.core.security.BaseSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final UserService userService;
-    private final BaseJwtFilter jwtFilter;
-
+    private final PasswordEncoder passwordEncoder;
+    private final BaseSecurityService baseSecurityService;
     private static final String[] WHITE_LIST = {
       "/api/v1/auth/**",
       "/swagger-ui/**",
@@ -30,18 +31,10 @@ public class SecurityConfiguration {
       "/v3/api-docs",
       "/v3/api-docs/**",
     };
-
-    // TODO: Move to core.
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    // TODO: Move to core (only common parts)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // çift taraflı
-        // Core -> BaseSecurityFilterChain.configureCoreSecurity(http);
+        baseSecurityService.configureCommonSecurityRules(http);
+
         http
                 .authorizeHttpRequests((req)->
                         req
@@ -51,16 +44,14 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/test/**").hasAnyAuthority("Test.Update")
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/test/**").hasAnyAuthority("Test.Delete")
                                 .anyRequest().authenticated()
-                )
-                .csrf(AbstractHttpConfigurer::disable)  // Cross-Site Request Forgery
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                );
+
         return http.build();
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         daoAuthenticationProvider.setUserDetailsService(userService);
         return daoAuthenticationProvider;
     }

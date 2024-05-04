@@ -13,7 +13,7 @@ public class ProductsController {
         System.out.println("Bir istek geldi:" + productId);
 
        try{
-            Thread.sleep(10000);
+      //      Thread.sleep(10000);
         }
         catch(Exception e) {}
 
