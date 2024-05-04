@@ -1,6 +1,13 @@
 spring:
   application:
     name: orderservice
+  kafka:
+    bootstrap-server: localhost:9092
+    template:
+      default-topic: orderTopic
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 server:
   port: 8081
 

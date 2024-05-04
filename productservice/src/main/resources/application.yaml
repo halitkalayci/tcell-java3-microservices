@@ -1,6 +1,17 @@
 spring:
   application:
     name: productservice
+  kafka:
+    bootstrap-server: localhost:9092
+    consumer:
+      group-id: productservice
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: org.turkcell.common.events
 server:
   port: 8082
 
@@ -10,3 +21,4 @@ eureka:
       defaultZone: http://localhost:8888/eureka/
     registerWithEureka: true
     fetchRegistry: true
+
