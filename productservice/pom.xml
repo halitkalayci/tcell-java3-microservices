@@ -53,10 +53,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.turkcell</groupId>
 			<artifactId>tcell.core3</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>2.0.5</version>
 		</dependency>
 
 		<dependency>
@@ -72,6 +73,14 @@
         </dependency>
 
     </dependencies>
+
+	<repositories>
+		<repository>
+			<id>github</id>
+			<name>Github Package Center</name>
+			<url>https://maven.pkg.github.com/halit-kalayci-instruction/turkcell-3-core</url>
+		</repository>
+	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
