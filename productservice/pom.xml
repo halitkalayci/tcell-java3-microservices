@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>com.turkcell</groupId>
 			<artifactId>tcell.core3</artifactId>
-			<version>2.0.5</version>
+			<version>2.0.7</version>
 		</dependency>
 
 		<dependency>

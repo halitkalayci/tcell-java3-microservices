@@ -41,6 +41,22 @@ services:
       - CONFIGURL=http://config-server:8079
     networks:
       - common
+  # docker-compose.yml dosyası .env dosyaları ile auto. çalışacak şekilde konfigüre edilmiştir.
+  product-service:
+    build:
+      context: ./productservice
+      args:
+        GITHUB_USERNAME: ${GITHUB_USERNAME}
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery-server
+      - config-server
+      - gateway-server
+    networks:
+      - common
+
   zookeeper:
     image: confluentinc/cp-zookeeper
     ports:
@@ -68,3 +84,5 @@ volumes:
 networks:
   common:
     driver: bridge
+
+

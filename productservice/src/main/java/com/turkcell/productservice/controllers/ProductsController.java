@@ -1,5 +1,6 @@
 package com.turkcell.productservice.controllers;
 
+import com.turkcell.core.ExampleService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
